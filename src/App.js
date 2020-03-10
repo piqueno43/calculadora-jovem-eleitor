@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react';
+import { Container, Form, Button } from 'react-bootstrap';
 import {
   differenceInCalendarYears,
   parse,
   formatDistanceToNow,
   differenceInDays,
-  isBefore
-} from 'date-fns'
-import pt from 'date-fns/locale/pt'
+  isBefore,
+} from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
-import InputNascimento from './components/InputNascimento'
+import InputNascimento from './components/InputNascimento';
 const convertDate = input => {
   return (
     input &&
@@ -17,65 +17,68 @@ const convertDate = input => {
       .split('/')
       .reverse()
       .join('-')
-  )
-}
-const dataEleicoes2020 = '2020, 10, 5'
+  );
+};
+const dataEleicoes2020 = '2020, 10, 5';
 
-function App () {
-  const [nascimento, setNascimento] = useState('')
-  const [state, setState] = useState({ input: '', msg: '' })
+function App() {
+  const [nascimento, setNascimento] = useState('');
+  const [state, setState] = useState({ input: '', msg: '' });
 
-  function handleChange (evt) {}
+  function handleChange(evt) {}
 
-  function handleSubmit (evt) {
-    const input = evt.target.nascimento.value.replace(/(_|\/)/gi, '')
+  function handleSubmit(evt) {
+    const input = evt.target.nascimento.value.replace(/(_|\/)/gi, '');
     if (input.length < 7) {
       setState({
-        msg: `Faltam ${8 - input.length} números a serem preenchidos`
-      })
+        msg: `Faltam ${8 - input.length} números a serem preenchidos`,
+      });
     }
     const dataValida = isBefore(
       new Date(convertDate(evt.target.nascimento.value)),
       new Date()
-    )
+    );
 
     if (dataValida) {
-      setState({ msg: 'A data informada é inválida' })
+      setState({ msg: 'A data informada é inválida' });
     }
-    evt.preventDefault()
+    evt.preventDefault();
 
-    setNascimento(evt.target.nascimento.value)
+    setNascimento(evt.target.nascimento.value);
   }
 
-  const inputData = convertDate(nascimento)
+  const inputData = convertDate(nascimento);
 
-  const aniversario = parse(inputData, 'yyyy-M-dd', new Date())
+  const aniversario = parse(inputData, 'yyyy-M-dd', new Date());
   const tempoEleicoes = formatDistanceToNow(new Date('2020, 10, 5'), {
     addSuffix: false,
     includeSeconds: true,
-    locale: pt
-  })
+    locale: pt,
+  });
   const obrigadosVotar = differenceInCalendarYears(
     new Date('2019, 10, 7'),
-    new Date(aniversario),
-  )
+    new Date(aniversario)
+  );
 
   const alistamento = differenceInCalendarYears(
     new Date('2020, 6, 5'),
-    new Date(aniversario),
-  )
+    new Date(aniversario)
+  );
 
   const idoso = differenceInCalendarYears(
     new Date('2020, 10, 4'),
-    new Date(aniversario),
-  )
+    new Date(aniversario)
+  );
 
   const idadeAteEleicao = differenceInCalendarYears(
     new Date(dataEleicoes2020),
     new Date(aniversario)
-  )
-  const idade = differenceInCalendarYears(new Date(dataEleicoes2020), new Date(aniversario))
-  const dias = differenceInDays(new Date(dataEleicoes2020), new Date())
+  );
+  const idade = differenceInCalendarYears(
+    new Date(dataEleicoes2020),
+    new Date(aniversario)
+  );
+  const dias = differenceInDays(new Date(dataEleicoes2020), new Date());
   return (
     <Container>
       <>
@@ -137,25 +140,25 @@ function App () {
         </>
       )}
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId='formIdade'>
+        <Form.Group controlId="formIdade">
           <Form.Label>Data de nascimento</Form.Label>
           <InputNascimento
-            id='formIdade'
-            className='form-control form-control-lg'
-            name='nascimento'
-            placeholder='00/00/0000'
+            id="formIdade"
+            className="form-control form-control-lg"
+            name="nascimento"
+            placeholder="00/00/0000"
             onChange={handleChange}
           />
-          <Form.Text className='text-muted'>
+          <Form.Text className="text-muted">
             {state.msg === '' ? '00/00/0000' : state.msg}
           </Form.Text>
         </Form.Group>
-        <Button variant='primary' type='submit'>
+        <Button variant="primary" type="submit">
           Verificar
         </Button>
       </Form>
     </Container>
-  )
+  );
 }
 
-export default App
+export default App;
