@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import {
-  differenceInYears,
+  differenceInCalendarYears,
   parse,
   formatDistanceToNow,
   differenceInDays,
@@ -38,13 +38,13 @@ function App () {
       new Date(convertDate(evt.target.nascimento.value)),
       new Date()
     )
-    
-    // if (dataValida) {
-    //   setState({ msg: 'A data informada é inválida' })
-    // }
+
+    if (dataValida) {
+      setState({ msg: 'A data informada é inválida' })
+    }
     evt.preventDefault()
 
-    setNascimento(evt.target.nascimento.value)    
+    setNascimento(evt.target.nascimento.value)
   }
 
   const inputData = convertDate(nascimento)
@@ -55,26 +55,26 @@ function App () {
     includeSeconds: true,
     locale: pt
   })
-  const obrigadosVotar = differenceInYears(
-    new Date('2018, 10, 7'),
-    new Date(aniversario)
+  const obrigadosVotar = differenceInCalendarYears(
+    new Date('2019, 10, 7'),
+    new Date(aniversario),
   )
 
-  const alistamento = differenceInYears(
+  const alistamento = differenceInCalendarYears(
     new Date('2020, 6, 5'),
-    new Date(aniversario)
+    new Date(aniversario),
   )
 
-  const idoso = differenceInYears(
+  const idoso = differenceInCalendarYears(
     new Date('2020, 10, 4'),
-    new Date(aniversario)
+    new Date(aniversario),
   )
 
-  const idadeAteEleicao = differenceInYears(
+  const idadeAteEleicao = differenceInCalendarYears(
     new Date(dataEleicoes2020),
     new Date(aniversario)
   )
-  const idade = differenceInYears(new Date(), new Date(aniversario))
+  const idade = differenceInCalendarYears(new Date(dataEleicoes2020), new Date(aniversario))
   const dias = differenceInDays(new Date(dataEleicoes2020), new Date())
   return (
     <Container>
